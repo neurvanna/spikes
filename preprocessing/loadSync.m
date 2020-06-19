@@ -54,7 +54,11 @@ if nargout>1
     lfmDir = dir(fullfile(root, dname, '*.lf.meta'));
     metaS = readSpikeGLXmeta(fullfile(root, dname, lfmDir(1).name));
     Fs = metaS.sRateHz;
-    
-    eventTimes = spikeGLXdigitalParse(syncData, Fs);
-    detectedFlips = eventTimes{1}{1}; % channel 1, first element (all events - both on and off)
+       
+    eventTimes = find(abs(diff(syncData))>1)/Fs;
+        %detectedFlips = eventTimes{7}{1}; % channel 1, first element (all events - both on and off)
+       % detectedFlips = eventTimes{7}{1};
+    detectedFlips = eventTimes;
+   % eventTimes = spikeGLXdigitalParse(syncData, Fs);
+   % detectedFlips = eventTimes{1}{1}; % channel 1, first element (all events - both on and off)
 end
